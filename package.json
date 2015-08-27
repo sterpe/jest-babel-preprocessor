@@ -1,6 +1,6 @@
 {
   "name": "jest-babel-prepocessor",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Babel preprocessor for Jest",
   "main": "index.js",
   "scripts": {
