@@ -2,7 +2,7 @@
 
 var fs = require('fs')
 var path = require('path')
-var p = path.resolve(process.cwd(), './../package.json')
+var p = path.resolve(process.cwd(), './../../package.json')
 
 var updatePackageJson = function (fd) {
 	try {
