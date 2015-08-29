@@ -2,7 +2,7 @@
   "name": "jest-babel-preprocessor",
   "version": "0.1.2",
   "description": "Babel preprocessor for Jest",
-  "main": "index.js",
+  "main": "preprocessor.js",
   "scripts": {
     "postinstall": "scripts/postinstall",
     "test": "jest --verbose --coverage"

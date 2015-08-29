@@ -1,3 +1,36 @@
 #!/usr/bin/env node
 
-console.log(process.cwd());
+var fs = require('fs')
+var path = require('path');
+var p = path.resolve(process.cwd(), './../package.json');
+
+var updatePackageJson = function (fd) {
+	try {
+		var package = require(p)
+	} catch (e) {
+		return;
+	}
+	package.jest = package.jest || {};
+	package.jest.scriptPreprocessor = [
+		"<rootDir>",
+		"node_modules",
+		"jest-babel-preprocessor",
+		"preprocessor.js"
+	].join("/")
+	try {
+		var buf = new Buffer(JSON.stringify(package, null, 2),
+			'utf-8')
+		fs.writeSync(fd, buf.toString());
+	} catch (e) {
+		return;
+	}
+	console.log("Updated yur `package.json`:");
+	console.log("Set `jest.scriptPreprocessor` field to: \"" +
+		package.jest.scriptPreprocessor + "\"");
+}
+try {
+	var fd = fs.openSync(p, 'r+')
+	updatePackageJson(fd);
+} catch (e) {
+	
+}
