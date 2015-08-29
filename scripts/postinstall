@@ -1,36 +1,43 @@
 #!/usr/bin/env node
 
 var fs = require('fs')
-var path = require('path');
-var p = path.resolve(process.cwd(), './../package.json');
+var path = require('path')
+var p = path.resolve(process.cwd(), './../package.json')
 
 var updatePackageJson = function (fd) {
 	try {
 		var package = require(p)
 	} catch (e) {
-		return;
+		return
 	}
-	package.jest = package.jest || {};
-	package.jest.scriptPreprocessor = [
-		"<rootDir>",
-		"node_modules",
-		"jest-babel-preprocessor",
-		"preprocessor.js"
+	package.jest = package.jest || {}
+	package.jest.scriptPreprocessor =
+		package.jest.scriptPreprocessor || [
+			"<rootDir>",
+			"node_modules",
+			"jest-babel-preprocessor",
+			"preprocessor.js"
 	].join("/")
+	package.jest.unmockedModulePathPatterns =
+		package.jest.unmockedModulePathPatterns || [
+			[
+				"<rootDir>",
+				"node_modules",
+				"react"
+			].join("/")
+	]
 	try {
 		var buf = new Buffer(JSON.stringify(package, null, 2),
 			'utf-8')
-		fs.writeSync(fd, buf.toString());
+		fs.writeSync(fd, buf.toString())
 	} catch (e) {
-		return;
+		return
 	}
-	console.log("Updated yur `package.json`:");
-	console.log("Set `jest.scriptPreprocessor` field to: \"" +
-		package.jest.scriptPreprocessor + "\"");
+	console.log("Updated yur `package.json`:")
 }
 try {
 	var fd = fs.openSync(p, 'r+')
-	updatePackageJson(fd);
+	updatePackageJson(fd)
 } catch (e) {
 	
 }
